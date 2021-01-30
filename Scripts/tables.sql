@@ -1,0 +1,40 @@
+CREATE TABLE Pumpa(
+  IdPump INTEGER,
+  BrKam INTEGER NOT NULL,
+  BrZap INTEGER NOT NULL,
+  Prh INTEGER NOT NULL,
+  BrDob INTEGER NOT NULL,
+  
+  CONSTRAINT pumpa_pk PRIMARY KEY (IdPump),
+  CONSTRAINT br_kam_ch CHECK (BrKam >= 0),
+  CONSTRAINT br_dob_ch CHECK (BrDob >= 0)
+);
+
+CREATE TABLE Drzava (
+  IdDrz INTEGER,
+  NazDrz VARCHAR(40) NOT NULL,
+  BrStanDr INTEGER NOT NULL,
+  
+  CONSTRAINT drzava_pk PRIMARY KEY (IdDrz),
+  CONSTRAINT br_stan_dr CHECK (BrStanDr >= 0)
+);
+
+CREATE TABLE Grad (
+  IdGrad INTEGER,
+  NazGrad VARCHAR(60) NOT NULL,
+  BrStanGrad INTEGER NOT NULL,
+  IdDrz INTEGER NOT NULL,
+  
+  CONSTRAINT grad_pk PRIMARY KEY (IdGrad),
+  CONSTRAINT IdDrz FOREIGN KEY (IdDrz) REFERENCES Drzava(IdDrz),
+  CONSTRAINT br_stan_grad_ch CHECK (BrStanGrad >= 0)
+);
+
+CREATE TABLE Nalazi_Se (
+  IdGrad INTEGER,
+  IdDrz INTEGER,
+  
+  CONSTRAINT nalazi_se_pk PRIMARY KEY (IdGrad, IdDrz),
+  CONSTRAINT idgrad_fk FOREIGN KEY (IdGrad) REFERENCES Grad(IdGrad),
+  CONSTRAINT iddrz_fk FOREIGN KEY (IdDrz) REFERENCES Drzava(IdDrz)
+);
